@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "onsapi"
+version = "0.0.1"
+authors = [
+  { name="Ashley Poole", email="apoole@tcd.ie" },
+]
+description = "A package for interacting with the UK Civil Service Office for National Statistics' Beta API."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests"
+]
+
+[project.urls]
+Homepage = "https://github.com/Pooleyo/onsapi"
+Issues = "https://github.com/Pooleyo/onsapi/issues"
