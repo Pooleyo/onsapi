@@ -1,6 +1,6 @@
 ### Installation
 
-You can install this package using pip:
+You can install this package using pip.
 
 ```
 pip install onsapi
@@ -8,23 +8,25 @@ pip install onsapi
 
 ### Example usage
 
-To get a list of all the available datasets:
+You can get a list of all datasets available on the ONS API.
+
 ```
 from onsapi import OnsApiClient
 
 client = OnsApiClient()
-list_of_datasets = client.list_datasets()
-
-for dataset in list_of_datasets.items:
-    print(dataset)
+datasets = client.list_datasets()
 ```
 
-To load a certain dataset as a dataframe: 
+Information about each dataset can be pretty printed to the command line.
 
 ```
-selected_dataset = list_of_datasets[0]
+selection = datasets[0]
+print(selection)
+```
 
-selected_dataset.download_csv()
+You can load a dataset as a dataframe.
 
-df = selected_dataset.load_as_df()
+```
+selection.download_csv()
+df = selection.load_as_df()
 ```

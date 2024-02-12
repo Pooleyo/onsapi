@@ -1,3 +1,4 @@
+import textwrap
 import pandas as pd
 from pydantic import BaseModel
 from typing import Optional, List
@@ -14,7 +15,7 @@ class OnsDataset(BaseModel):
     next_release: str
     #qmi: str
     related_datasets: Optional[List]
-    release_freqeuncy: Optional[str]
+    release_frequency: Optional[str]
     state: str
 
 
@@ -75,16 +76,32 @@ class OnsDataset(BaseModel):
             raise FileNotFoundError(f"The CSV file for dataset id '{self.id}' does not exist. Please download the dataset using the download_csv method before attempting to load it.")
 
     def __str__(self):
+        def format_multiline(value, indent=4):
+            if isinstance(value, list):
+                # Format list items
+                formatted_list = "\n".join([f"{' ' * (indent+2)}- {item}" for item in value])
+                return f"\n{formatted_list}"
+            elif isinstance(value, dict):
+                # Format dictionary key-value pairs
+                formatted_dict = "\n".join([f"{' ' * (indent+2)}{key}: {val}" for key, val in value.items()])
+                return f"\n{formatted_dict}"
+            elif isinstance(value, str):
+                # Wrap and indent multi-line text
+                return textwrap.fill(value, width=80, initial_indent=' ' * indent, subsequent_indent=' ' * indent)
+            else:
+                # Fallback for other types, converting them to string
+                return str(value)
+
         return (
-            f"OnsDataset:\n"
+            "OnsDataset:\n"
             f"  Title: {self.title}\n"
-            f"  Id: {self.id}\n"
-            f"  Description: {self.description}\n"
-            f"  Contacts: {self.contacts}\n"
-            f"  Links: {self.links}\n"
-            f"  Methodologies: {self.methodologies}\n"
-            f"  Next release: {self.next_release}\n"
-            f"  Related datasets: {self.related_datasets}\n"
-            f"  Release freqeuncy: {self.release_freqeuncy}\n"
+            f"  ID: {self.id}\n"
+            f"  Description:\n{format_multiline(self.description, 6)}\n"
+            f"  Contacts:{format_multiline(self.contacts, 6)}\n"
+            f"  Links:{format_multiline(self.links, 6)}\n"
+            f"  Methodologies:{format_multiline(self.methodologies, 6)}\n"
+            f"  Next Release: {self.next_release}\n"
+            f"  Related Datasets:{format_multiline(self.related_datasets, 6)}\n"
+            f"  Release Frequency: {self.release_frequency}\n"
             f"  State: {self.state}\n"
         )
