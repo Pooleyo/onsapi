@@ -9,14 +9,14 @@ class OnsDataset(BaseModel):
     id: str
     title: str
     description: str
-    contacts: list
-    links: dict
-    methodologies: Optional[List]
-    next_release: str
+    contacts: Optional[list]
+    links: Optional[dict]
+    methodologies: Optional[list]
+    next_release: Optional[str]
     #qmi: str
-    related_datasets: Optional[List]
+    related_datasets: Optional[list]
     release_frequency: Optional[str]
-    state: str
+    state: Optional[str]
 
 
     def download_csv(self):

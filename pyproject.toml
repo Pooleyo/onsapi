@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "onsapi"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
   { name="Ashley Poole", email="apoole@tcd.ie" },
 ]
-description = "A package for interacting with the UK Civil Service Office for National Statistics' Beta API."
+description = "A package for interacting with the UK Office for National Statistics' Beta API."
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
