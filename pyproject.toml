@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "onsapi"
-version = "0.2.1"
+version = "0.2.2"
 authors = [
   { name="Ashley Poole", email="apoole@tcd.ie" },
 ]
@@ -18,7 +18,8 @@ classifiers = [
 ]
 dependencies = [
     "requests",
-    "pandas"
+    "pandas",
+    "pydantic"
 ]
 
 [project.urls]
