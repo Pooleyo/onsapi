@@ -1,13 +1,5 @@
 import requests
-from . import OnsDataset
-from pydantic import BaseModel
-
-class OnsDataList(BaseModel):
-    datasets: list
-
-    def __str__(self):
-        return ''.join(f"  Title: {dataset.title}\n" for dataset in self.datasets)
-
+from . import OnsDataset, OnsDataList
 
 class OnsApiClient:
 
@@ -19,7 +11,8 @@ class OnsApiClient:
             response = requests.get(url, params=params)
             if response.status_code == 200:
                 datasets_json = response.json()['items']  # Assuming 'items' is the key containing datasets
-                return OnsDataList(datasets=[OnsDataset.parse_obj(dataset) for dataset in datasets_json])
+                ons_data_list = OnsDataList(datasets=[OnsDataset.parse_obj(dataset) for dataset in datasets_json])
+                return ons_data_list
             elif response.status_code == 404:
                 print("Error 404: Not found. The requested asset could not be found.")
                 return None
