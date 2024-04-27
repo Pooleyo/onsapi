@@ -6,14 +6,14 @@ import requests
 import os
 
 class OnsDataset(BaseModel):
-    id: str
-    title: str
-    description: str
+    id: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
     contacts: Optional[list]
     links: Optional[dict]
     methodologies: Optional[list]
     next_release: Optional[str]
-    #qmi: str
+    #qmi: Optional[str]
     related_datasets: Optional[list]
     release_frequency: Optional[str]
     state: Optional[str]
