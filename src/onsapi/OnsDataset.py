@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 import requests
 import os
+import sqlite3
 
 class OnsDataset(BaseModel):
     id: Optional[str]
@@ -17,7 +18,6 @@ class OnsDataset(BaseModel):
     related_datasets: Optional[list]
     release_frequency: Optional[str]
     state: Optional[str]
-
 
     def download_csv(self):
         # Ensure the data folders for this dataset exist
@@ -74,6 +74,48 @@ class OnsDataset(BaseModel):
         else:
             # Raise an error if the file does not exist
             raise FileNotFoundError(f"The CSV file for dataset id '{self.id}' does not exist. Please download the dataset using the download_csv method before attempting to load it.")
+
+    def save_to_sqlite(self, file_path: str):
+        # Connect to the SQLite database
+        conn = sqlite3.connect(file_path)
+        c = conn.cursor()
+        
+        # Create table if it does not exist
+        c.execute('''
+            CREATE TABLE IF NOT EXISTS datasets (
+                id TEXT,
+                title TEXT,
+                description TEXT,
+                contacts TEXT,
+                links TEXT,
+                methodologies TEXT,
+                next_release TEXT,
+                related_datasets TEXT,
+                release_frequency TEXT,
+                state TEXT
+            )
+        ''')
+        
+        # Insert dataset properties into the table
+        c.execute('''
+            INSERT INTO datasets (id, title, description, contacts, links, methodologies, next_release, related_datasets, release_frequency, state)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            self.id,
+            self.title,
+            self.description,
+            str(self.contacts),
+            str(self.links),
+            str(self.methodologies),
+            self.next_release,
+            str(self.related_datasets),
+            self.release_frequency,
+            self.state
+        ))
+        
+        # Commit changes and close the connection
+        conn.commit()
+        conn.close()
 
     def __str__(self):
         def format_multiline(value, indent=4):
